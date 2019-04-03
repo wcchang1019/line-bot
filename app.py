@@ -1,5 +1,6 @@
 from flask import Flask, request, abort
-import time
+import twstock
+import os
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -17,6 +18,7 @@ line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
 # Channel Secret
 handler = WebhookHandler(CHANNEL_SECRET)
 
+
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -32,15 +34,21 @@ def callback():
         abort(400)
     return 'OK'
 
+
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    message = TextSendMessage(text=event.message.text)
+    reply_message = ''
+    stock_info = twstock.realtime.get(event.message.text)
+    if stock_info.get('success'):
+        reply_message = stock_info.get('info').get('name') + '目前價格為:' \
+                        + stock_info.get('realtime').get('latest_trade_price')
+    else:
+        reply_message = '請輸入正確股票代碼'
+    message = TextSendMessage(text=reply_message)
     line_bot_api.reply_message(event.reply_token, message)
-    line_bot_api.push_message(USER_ID, TextSendMessage(text='hello world'))
 
 
-import os
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
