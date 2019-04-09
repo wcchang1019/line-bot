@@ -10,9 +10,12 @@ from linebot.exceptions import (
 from linebot.models import *
 
 app = Flask(__name__)
-CHANNEL_ACCESS_TOKEN = 'SiGEgA71amegCyRbTJ7LkbM+mGrKnpiDnUmgwrcei5T6ozmLcd919xKfzqQO5q0DSKMSgE6XuSy88T36ts3IHgNZRnVVj1KXBuzYhcPFNqvQfuXr1zQzGI1M/lfsnplnmT09NmCgQmRvhNxpjKmdHwdB04t89/1O/w1cDnyilFU='
-CHANNEL_SECRET = '7e6fbaa6f8546ec31c586d925deb0c43'
-USER_ID = 'U0842cd9c4beca2eda16af2f3fd8988eb'
+with open('line_bot_confidential.txt') as f:
+    line_bot_confidential = f.readlines()
+line_bot_confidential = [x.strip() for x in line_bot_confidential]
+CHANNEL_ACCESS_TOKEN = line_bot_confidential[0]
+CHANNEL_SECRET = line_bot_confidential[1]
+USER_ID = line_bot_confidential[2]
 # Channel Access Token
 line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
 # Channel Secret
