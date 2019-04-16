@@ -3,12 +3,12 @@
 ## 使用前須知
 
 - `confidential.txt`格式為
-[username]
+[username]  
 [password]
 - `line_bot_confidential.txt`格式為
-[CHANNEL_ACCESS_TOKEN]
-[CHANNEL_SECRET]
-[USER_ID] 
+[CHANNEL_ACCESS_TOKEN]  
+[CHANNEL_SECRET]  
+[USER_ID]
 
 ## 查詢即時股價
 
